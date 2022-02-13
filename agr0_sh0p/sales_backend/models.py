@@ -5,7 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
-class MetaGroup(models.Model):
+class ProductGroup(models.Model):
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True)
 
@@ -13,13 +13,16 @@ class MetaGroup(models.Model):
         return self.title
 
 
-class ProductGroup(models.Model):
+class Product(models.Model):
     name = models.CharField(max_length=200)
     group = models.ForeignKey(
-        MetaGroup,
+        ProductGroup,
         related_name='categroria',
         on_delete=models.CASCADE
     )
+    # user = models.ForeignKey(
+    #     User,
+    # )
     # image = models.ImageField
     price = models.FloatField()
     description = models.TextField()
