@@ -26,17 +26,17 @@ def product_group(request, slug):
         {'products': product.categroria.all()}
     )
 
-def product_detail(request, id):
-    template = 'sales_backend/product_detail.html'
-    product = get_object_or_404(
-        models.Product,
-        pk=product_id
-    )
-    return render(
-        request,
-        template,
-        {'product': product}
-    )
+# def product_detail(request, id):
+#     template = 'sales_backend/product_detail.html'
+#     product = get_object_or_404(
+#         models.Product,
+#         pk=id
+#     )
+#     return render(
+#         request,
+#         template,
+#         {'product': product}
+#     )
 
 def create_product(request):
     form = forms.ProductForm(request.POST or None)

@@ -30,14 +30,14 @@ class Cart(object):
 
         for item in cart.values():
             item['price'] = Decimal(item['price'])
-            # item['total_price'] = item['price'] * item['quantity']
+            item['total_price'] = item['price'] * item['quantity']
             yield item
     
-    # def __len__(self):
-    #     """
-    #     Считаем сколько товаров в корзине
-    #     """
-    #     return sum(item['quantity'] for item in self.cart.values())
+    def __len__(self):
+        """
+        Считаем сколько товаров в корзине
+        """
+        return sum(item['quantity'] for item in self.cart.values())
 
     def add(self, product, quantity=1, update_quantity=False):
         """
@@ -68,9 +68,9 @@ class Cart(object):
             del self.cart[product_id]
             self.save()
 
-    # def get_total_price(self):
-    #     # получаем общую стоимость
-    #     return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
+    def get_total_price(self):
+        # получаем общую стоимость
+        return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
 
     def clear(self):
         # очищаем корзину в сессии

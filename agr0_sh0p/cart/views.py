@@ -20,6 +20,12 @@ def cart_add(request, id):
     return redirect('cart:cart_detail')
 
 
+def cart_remove(request, id):
+    cart = Cart(request)
+    product = get_object_or_404(Product, id=id)
+    cart.remove(product)
+    return redirect('cart:cart_detail')
+
 # @login_required(login_url="/users/login")
 def item_clear(request, id):
     cart = Cart(request)
