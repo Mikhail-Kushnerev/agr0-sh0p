@@ -64,6 +64,7 @@ def product_detail(request, id):
         template,
         {
             "product": product,
+            "count": product.count,
             "cart_product_form": cart_product_form
         }
     )

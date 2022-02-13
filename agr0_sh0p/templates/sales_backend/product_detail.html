@@ -2,7 +2,8 @@
 Описание: {{ product.description }}</br>
 Цена: {{ product.price }}
 {{ product.price }}
-
+</br>
+Кол-во: {{ count }}
 <form 
   action="{% url 'cart:cart_add' product.id %}"
   method="post"  
