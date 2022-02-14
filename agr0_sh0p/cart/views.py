@@ -14,10 +14,14 @@ def cart_add(request, id):
         cd = form.cleaned_data
         cart.add(
             product=product,
+            count=product.count,
             quantity=cd['quantity'],
             update_quantity=cd['update']
         )
-    return redirect('cart:cart_detail')
+    return redirect(
+        'sales_backend:product_detail',
+        id=id
+        )
 
 
 def cart_remove(request, id):
@@ -57,7 +61,7 @@ def cart_clear(request):
     return redirect("cart:cart_detail")
 
 
-@login_required(login_url="/users/login")
+# @login_required(login_url="/users/login")
 def cart_detail(request):
     cart = Cart(request)
     return render(

@@ -30,7 +30,11 @@ class Cart(object):
 
         for item in cart.values():
             item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
+            item['count'] = int(item['count'])
+            if item['quantity'] > product.count:
+                item['total_price'] = item['price'] * item['count']
+            else:
+                item['total_price'] = item['price'] * item['quantity']
             yield item
     
     def __len__(self):
@@ -39,7 +43,13 @@ class Cart(object):
         """
         return sum(item['quantity'] for item in self.cart.values())
 
-    def add(self, product, quantity=1, update_quantity=False):
+    def add(
+        self,
+        product,
+        count,
+        quantity=1,
+        update_quantity=False
+    ):
         """
         Добавляем товар в корзину или обновляем его количество.
         """
@@ -47,6 +57,7 @@ class Cart(object):
         if product_id not in self.cart:
             self.cart[product_id] = {
                 'quantity': 0,
+                'count': str(count),
                 'price': str(product.price)
             }
         if update_quantity:

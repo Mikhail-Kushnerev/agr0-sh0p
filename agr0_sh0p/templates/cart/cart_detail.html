@@ -3,44 +3,58 @@
     Корзина покупок
 {% endblock %}
 {% block content %}
+<form
+  action="."
+  method="post"
+  name="table"
+>
+{% csrf_token %}   
   <table class="table">
     <thead>
         <tr class="table-warning">
             <th>#</th>
             <th>Наименование товара</th>
-            <th>Цена за ед.</th>
             <th>Кол-во в корзине</th>
             <th class="num">Цена за ед.</th>
             <th class="num">Итоговая цена</th>        
             <th>Редактировать</th>
         </tr>
     </thead>
+  
     <tbody>
         {% for item in cart %}
         {% with product=item.product %}
+
         <tr>
-            <th scope="row">{{ forloop.counter }}</th>
+            <th scope="row">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  id="flexCheckDefault"
+                >
+                {{ forloop.counter }}</th>
             <td>{{ product.name }}</td>
-            <td>{{ product.price }} {{ product.count }}</td>
             <td>
-                {% if item.quantity > product.count %}
+                {% comment %} {% if item.quantity > product.count %}
                 {{ product.count }}
-                {% else %}
+                {% else %} {% endcomment %}
                 {{ item.quantity }}
-                {% endif %}
+                {% comment %} {% endif %} {% endcomment %}
             </td>
             <td class="num">${{ item.price }}</td>
-            <td class="num">${% widthratio item.price 1 product.count %}</td>        
+            <td class="num">${{ item.total_price }}</td>        
             <td>
-            <a href="{% url "cart:cart_remove" product.id%}">
+            <a href="{% url "cart:cart_remove" product.id %}">
                 Удалить
             </a>
             </td>
-        </tr>
+        </tr>  
         {% endwith  %}
         {% endfor %}
     </tbody>
   </table>
+  <input type="submit" value="Удалить" />
+</form> 
   <a href="{% url "cart:cart_clear" %}">
     Очистить
   </a>
