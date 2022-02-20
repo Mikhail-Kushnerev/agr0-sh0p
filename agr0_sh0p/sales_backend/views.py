@@ -1,7 +1,7 @@
 from zoneinfo import available_timezones
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
-# from django import req
+
 from . import models, forms
 from cart.forms import CartAddProductFrom
 
@@ -30,6 +30,7 @@ def create_product(request):
     form = forms.ProductForm(request.POST or None)
     if form.is_valid():
         product = form.save(commit=False)
+        product.user = request.user
         product.save()
         return redirect('sales_backend:main_page')
     return render(
