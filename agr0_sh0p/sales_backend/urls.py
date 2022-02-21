@@ -13,5 +13,15 @@ urlpatterns = [
         views.product_detail,
         name='product_detail'
     ),
-    path('create/', views.create_product, name='create_product')
+    path('create/', views.create_product, name='create_product'),
+    path(
+        'product_detail/<int:id>/edit/',
+        views.edit_product,
+        name='edit_product'
+    ),
+    path(
+        'product_detail/<int:id>/comments/',
+        views.addcomment,
+        name='addcomment'
+    ),
 ]

@@ -84,10 +84,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = 'user.User'
-AUTHENTICATION_BACKENDS = (
-    'django.contrib.auth.backends.ModelBackend',
-    'user.EmailAuth.CustomBackend'
-)
+# AUTHENTICATION_BACKENDS = (
+#     'django.contrib.auth.backends.ModelBackend',
+#     'user.backends.MyAuthBackend'
+# )
 LOGIN_URL = 'user:login'
 LOGIN_REDIRECT_URL = 'sales_backend:main_page'
 

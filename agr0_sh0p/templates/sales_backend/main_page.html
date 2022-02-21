@@ -4,11 +4,18 @@
 {% endblock %}
 {% block content %}
 {% for product in products %}
-    <a href="{% url 'sales_backend:product_group' product.slug %}"> 
+  <ul class="products">
+    <li class="product-wrapper">
+      <a
+        href="{% url 'sales_backend:product_group' product.slug %}"
+        class="product"
+      > 
         {{ product.title }}
-    </a>
-    {% if not forloop.last %}
-        <hr>
-    {% endif %}
+      </a>
+    </li>
+  </ul>
+  {% if not forloop.last %}
+  <hr>
+  {% endif %}
 {% endfor %}
 {% endblock %}

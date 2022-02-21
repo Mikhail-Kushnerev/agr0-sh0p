@@ -32,19 +32,44 @@
           </svg>
         </button>
       </form>
+      {% else %}
+        <a
+          href="{% url 'sales_backend:edit_product' product.id %}"
+          class="btn btn-primary"
+        >
+          Редактировать
+        </a>
       {% endif %}
       </br>
       Кол-во: {{ count }}
     </div>
   </section>
   <div class="row">
-    <nav class="col-md-3">
+    <aside class="col-md-3">
       <ul>
         <li>Отзывы
         <li>Оценка
       </ul>
-    </nav>
+    </aside>
     <article class="col-md-9"> Описание: {{ product.description }} </article>
   </div>
+</div>
+<br>
+<br>
+<br>
+<div>
+  <form
+    method="post"
+    action="{% url 'sales_backend:addcomment' product.id %}"
+  >
+    {% csrf_token %}
+    {{ form }}
+    <button>
+      Оставить отзыв
+    </button>
+  </form>
+  {% for comment in comments %}
+  {{ comment.text }}
+  {% endfor %}
 </div>
 {% endblock %}

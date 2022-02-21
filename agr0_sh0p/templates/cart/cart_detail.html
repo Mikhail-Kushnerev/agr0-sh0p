@@ -3,12 +3,7 @@
     Корзина покупок
 {% endblock %}
 {% block content %}
-{% comment %} <form
-  action="."
-  method="post"
-  name="table"
->
-{% csrf_token %}    {% endcomment %}
+{% if cart|length != 0 %}
   <table class="table">
     <thead>
         <tr class="table-warning">
@@ -26,20 +21,17 @@
         {% with product=item.product %}
         <tr>
             <th scope="row">
-                {% comment %} <input
-                  class="form-check-input"
-                  type="checkbox"
-                  id="flexCheckDefault"
-                > {% endcomment %}
                 {{ forloop.counter }}</th>
             <td>{{ product.name }}</td>
             <td>
                 {% comment %} {% if item.quantity > product.count %}
                 {{ product.count }}
                 {% else %} {% endcomment %}
-                <a href="{% url 'cart:item_decrement' product.id %}">-</a>
-                {{ item.quantity }}
+                {% if item.count >= item.quantity %}
                 <a href="{% url 'cart:item_increment' product.id %}">+</a>
+                {{ item.quantity }}
+                {% endif %}
+                <a href="{% url 'cart:item_decrement' product.id %}">-</a>
                 {% comment %} {% endif %} {% endcomment %}
             </td>
             <td class="num">${{ item.price }}</td>
@@ -54,8 +46,6 @@
         {% endfor %}
     </tbody>
   </table>
-  {% comment %} <input type="submit" value="Удалить" />
-</form>  {% endcomment %}
   <a href="{% url "cart:cart_clear" %}">
     Очистить
   </a>
@@ -63,6 +53,10 @@
     href="{% url "orders:order_create" %}"
     class="button"
   >
-    Checkout
+    Оформить заказ
   </a>
+{% else %}
+В корзине пока нет товаров
+<a href="{% url 'sales_backend:main_page' %}"> Вернуться к каталогу </a>
+{% endif %}
 {% endblock %}

@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import ProductGroup, Product
+from .models import ProductGroup, Product, CommentProduct
 
 
 @admin.register(Product)
@@ -19,3 +19,4 @@ class ProductAdmin(admin.ModelAdmin):
 
 
 admin.site.register(ProductGroup)
+admin.site.register(CommentProduct)

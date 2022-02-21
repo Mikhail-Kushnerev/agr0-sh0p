@@ -27,20 +27,15 @@
     <!-- заголовок -->
     {% endblock %}
   </title>
+  <link rel="stylesheet" href="{% static 'my.css' %}">
 </head>
-
 <body>
   <header>
     {% include 'includes/header.html' %}
   </header>
   <main>
     <div class="container py-5">
-      <h1>
-        {% comment %} {% block header %}
-        {% endblock %}{% endcomment %}
-      </h1>
       {% block content %}
-      {% comment %} {% load user_filters %} {% endcomment %}
       <!-- наполнение -->
       {% endblock %}
     </div>

@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Product
+from .models import Product, CommentProduct
 
 
 class ProductForm(forms.ModelForm):
@@ -13,3 +13,9 @@ class ProductForm(forms.ModelForm):
             'description',
             'count'
         )
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = CommentProduct
+        fields = ('text', )

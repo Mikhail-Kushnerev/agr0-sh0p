@@ -3,7 +3,7 @@ from django.conf import settings
 # from django.contrib.auth.models import User
 # Create your models here.
 from user.models import User
-
+from django.core.validators import MinValueValidator
 
 class ProductGroup(models.Model):
     title = models.CharField(max_length=150)
@@ -31,9 +31,9 @@ class Product(models.Model):
         blank=True,
         upload_to='images/product/'        
     )
-    price = models.FloatField()
+    price = models.FloatField(validators=[MinValueValidator(1)])
     description = models.TextField()
-    count = models.IntegerField()
+    count = models.IntegerField(validators=[MinValueValidator(1)])
 
     class Meta:
         models.UniqueConstraint(
@@ -43,3 +43,22 @@ class Product(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+class CommentProduct(models.Model):
+    user = models.ForeignKey(
+        User,
+        related_name='user_comments',
+        on_delete=models.CASCADE,
+        null=True
+    )
+    product = models.ForeignKey(
+        Product,
+        related_name='product_comments',
+        on_delete=models.CASCADE,
+        null=True
+    )
+    text = models.TextField()
+
+    def __str__(self) -> str:
+        return self.text
