@@ -1,6 +1,8 @@
+from importlib.metadata import files
 from zoneinfo import available_timezones
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
+from django.forms import modelformset_factory
 
 from . import models, forms
 from cart.forms import CartAddProductFrom
@@ -30,15 +32,28 @@ def product_group(request, slug):
 def create_product(request):
     button = 'Добавить товар'
     form = forms.ProductForm(request.POST or None)
-    if form.is_valid():
+    formset = forms.ProductImagesForm(
+        request.POST or None,
+        files=request.FILES or None
+    )
+    if form.is_valid() and formset.is_valid():
         product = form.save(commit=False)
+        product.user = request.user
         product.save()
+
+        for pic in request.FILES.getlist('image'):
+            photo = models.ProductImages(
+                image=pic,
+                product=product
+            )
+            photo.save()
         return redirect('sales_backend:main_page')
     return render(
         request,
         'sales_backend/create_product.html',
         {
             'form': form,
+            'formset': formset,
             'button': button,
         }
     )
@@ -51,6 +66,7 @@ def product_detail(request, id):
         # slug=slug,
         # available=True
     )
+    product_images = product.images.all()
     form = forms.CommentForm()
     comments = models.CommentProduct.objects.filter(product=product)
     cart_product_form = CartAddProductFrom()
@@ -59,6 +75,8 @@ def product_detail(request, id):
         template,
         {
             "product": product,
+            "product_images": product_images[1:],
+            "preview": product_images[0].image,
             'form': form,
             "count": product.count,
             "cart_product_form": cart_product_form,

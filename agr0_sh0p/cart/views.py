@@ -33,7 +33,8 @@ def cart_remove(request, id):
     cart.remove(product)
     return redirect('cart:cart_detail')
 
-# @login_required(login_url="/users/login")
+
+@login_required(login_url="/users/login")
 def item_increment(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
@@ -46,7 +47,7 @@ def item_increment(request, id):
     )
 
 
-# @login_required(login_url="/users/login")
+@login_required(login_url="/users/login")
 def item_decrement(request, id):
     cart = Cart(request)
     product = Product.objects.get(id=id)
@@ -54,14 +55,14 @@ def item_decrement(request, id):
     return redirect("cart:cart_detail")
 
 
-# @login_required(login_url="/users/login")
+@login_required(login_url="/users/login")
 def cart_clear(request):
     cart = Cart(request)
     cart.clear()
     return redirect("cart:cart_detail")
 
 
-# @login_required(login_url="/users/login")
+@login_required(login_url="/users/login")
 def cart_detail(request):
     cart = Cart(request)
     return render(

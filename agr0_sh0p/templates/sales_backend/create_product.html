@@ -2,12 +2,17 @@
 {% block title %} Добавление товара {% endblock %}
 {% block content %}
   <div class="card">
-    <form method="post">
+    <form
+      method="post"
+      enctype="multipart/form-data"
+    >
       {% csrf_token %}
+      
+      {{ formset.as_p }}
       {{ form.as_p }}
-      <a class="btn btn-primary">
+      <button type="submit">
         {{ button }}
-      </a>    
+      </button>    
     </form>
   </div>
 {% endblock %}

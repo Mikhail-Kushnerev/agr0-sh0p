@@ -27,5 +27,11 @@ def order_create(request):
             'orders/success.html',
             {'order': order}
         )
-    return render(request, 'orders/create.html',
-                  {'cart': cart, 'form': form})
+    return render(
+        request,
+        'orders/create.html',
+        {
+            'cart': cart,
+            'form': form
+        }
+    )
