@@ -1,8 +1,5 @@
-from importlib.metadata import files
-from zoneinfo import available_timezones
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
-from django.forms import modelformset_factory
 
 from . import models, forms
 from cart.forms import CartAddProductFrom
