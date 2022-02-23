@@ -12,21 +12,50 @@
           <span class="badge bg-secondary">{{ item.quantity }}</span>
           {% endfor %}
         </a>
-        <a
-          href="{% url 'sales_backend:create_product' %}"
-          class="btn btn-primary"
-        >
-          Разместить товар
-        </a>
+        {% if perms.sales_backend.add_product %}
+          <a
+            href="{% url 'sales_backend:create_product' %}"
+            class="btn btn-primary"
+          >
+            Разместить товар
+          </a>
+        {% else %}
+          <a
+            href=""
+            class="btn btn-primary"
+          >
+            Стать продавцом
+          </a>
+        {% endif %}
       </li>
-      <li>
-        <a>{{ user.username }}</a>
-      </li>
-
       {% if user.is_authenticated %}
-      <li>
-        <a href="{% url 'user:logout' %}"> Выйти </a>
-      </li>
+      <a 
+        data-bs-toggle="collapse"
+        href="#collapseMenu"
+      >
+        Профиль
+      </a>
+        <div
+          class="collapse card"
+          style="width: 8rem;"
+          id="collapseMenu"
+        >
+          <li>
+            <a
+              href="{% url 'user:user_page' user.username %}"
+            >
+              {{ user.username }}
+            </a>
+          {% if perms.sales_backend.add_product %}
+          <li> мои продажи
+          {% else %}
+          <li> мои заказы
+          {% endif %}
+          </li>
+          <li>
+            <a href="{% url 'user:logout' %}"> Выйти </a>
+          </li>
+        </div>
       {% else %}
       <li>
         <a href="{% url 'user:login' %}"> Войти </a>

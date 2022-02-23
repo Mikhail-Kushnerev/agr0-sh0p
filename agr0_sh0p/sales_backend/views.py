@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
+from django.contrib.auth.decorators import permission_required
 
 from . import models, forms
 from cart.forms import CartAddProductFrom
@@ -26,6 +27,10 @@ def product_group(request, slug):
         {'products': product.categroria.all()}
     )
 
+@permission_required(
+    'sales_backend.add_product',
+    login_url='sales_backend:main_page'
+)
 def create_product(request):
     button = 'Добавить товар'
     form = forms.ProductForm(request.POST or None)

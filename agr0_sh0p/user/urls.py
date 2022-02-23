@@ -21,9 +21,14 @@ urlpatterns = [
         name='login'
     ),
     path(
+        'user/<str:username>/',
+        views.user_page,
+        name='user_page'
+    ),    
+    path(
         'logout/',
         LogoutView.as_view(
-            template_name='user/logout.html'
+            template_name='sales_backend/main_page.html'
         ),
         name='logout'
     ),
