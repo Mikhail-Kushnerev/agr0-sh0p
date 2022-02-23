@@ -127,4 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-agr0_sh0p/media
+
+#static/media
+/agr0_sh0p/media
