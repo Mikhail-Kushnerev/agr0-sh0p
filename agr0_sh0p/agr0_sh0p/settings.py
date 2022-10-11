@@ -1,4 +1,5 @@
 import os
+import psycopg2
 from pathlib import Path
 from telnetlib import AUTHENTICATION
 
@@ -16,7 +17,11 @@ SECRET_KEY = 'django-insecure-s2jz&iq!x-a@&f(_4u&1wcu_=(2-3h-d-(y)7-$%e#)-x2#oo2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '130.193.54.32',
+    '127.0.0.1',
+    'localhost',
+]
 
 
 # Application definition
@@ -74,8 +79,12 @@ WSGI_APPLICATION = 'agr0_sh0p.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'new_bd',
+        'USER': 'postgres',
+        'PASSWORD': 'Bear2013',
+        'HOST': 'localhost',
+        'PORT': '5432'
     }
 }
 
@@ -84,10 +93,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
 
 AUTH_USER_MODEL = 'user.User'
-# AUTHENTICATION_BACKENDS = (
-#     'django.contrib.auth.backends.ModelBackend',
-#     'user.backends.MyAuthBackend'
-# )
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'user.EmailAuth.CustomBackend'
+)
 LOGIN_URL = 'user:login'
 LOGIN_REDIRECT_URL = 'sales_backend:main_page'
 

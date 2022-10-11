@@ -1,80 +1,80 @@
-from tkinter import Widget
+from django.contrib.auth import get_user_model
 from django.db import models
-from django.conf import settings
-# from django.contrib.auth.models import User
-# Create your models here.
-from user.models import User
-from django.core.validators import MinValueValidator
+from django.forms import ChoiceField
+from users.models import MyUser as User
+
+
+SCORE = [(i, int(i)) for i in range(1, 6)]
 
 class ProductGroup(models.Model):
-    title = models.CharField(max_length=150)
+    title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
-    image = models.ImageField(
-        default='default.jpg',
-        null=True,
-        blank=True,
-        upload_to=f'images/product_group/'
-    )
+
     def __str__(self):
         return self.title
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=200)
-    group = models.ForeignKey(
+    name = models.TextField()
+    product_group = models.ForeignKey(
         ProductGroup,
-        related_name='categroria',
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        related_name='product',
     )
-    user = models.ForeignKey(
+    product_seller = models.ForeignKey(
         User,
         related_name='product_seller',
         on_delete=models.CASCADE
     )
-    price = models.FloatField(validators=[MinValueValidator(1)])
+    image = models.ImageField(
+        upload_to='sales_backend/',
+        blank=True,
+    )
+    price = models.FloatField()
     description = models.TextField()
-    count = models.IntegerField(validators=[MinValueValidator(1)])
+    count = models.IntegerField()
+    discount = models.CharField(max_length=200)
+    on_sale=models.BooleanField(default=True)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['name', 'group', 'user'],
-                name='unique_name_group_user'
-            )
-        ]
+    # class Meta:
+    #     constraints = [
+    #         models.UniqueConstraint(
+    #             fields=['name', 'product_seller','product_group'],
+    #             name='unique_name_product_seller_product_group'
+    #         )
+    #     ]
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.name
 
 
-class ProductImages(models.Model):
-    image = models.ImageField(
-        default='default.jpg',
-        null=True,
-        blank=True,
-        upload_to='images/product_group/product/',
-    )
+class Comment(models.Model):
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
-        related_name='images'
+        related_name='comments',
+        verbose_name='Комментарий',
+        help_text='Комментарий поста',
     )
-
-
-class CommentProduct(models.Model):
-    user = models.ForeignKey(
+    author = models.ForeignKey(
         User,
-        related_name='user_comments',
         on_delete=models.CASCADE,
-        null=True
+        related_name='comment',
+        verbose_name='Автор',
     )
-    product = models.ForeignKey(
-        Product,
-        related_name='product_comments',
-        on_delete=models.CASCADE,
-        null=True
+    text = models.TextField(
+        'Комментарий поста',
+        help_text='Введите комментарий поста',
     )
-    text = models.TextField()
+    rating = models.DecimalField(
+        max_digits=6,
+        choices=SCORE,
+        decimal_places=0
+    )
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.text
+
+    def get_avg_rating(self):
+        avg_rating = (self.rating) / 5
+        return avg_rating

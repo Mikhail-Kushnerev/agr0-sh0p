@@ -1,32 +1,38 @@
 from django.contrib import admin
 
-from .models import (
-    ProductGroup,
-    Product,
-    ProductImages,
-    CommentProduct
-)
+from .models import Product, ProductGroup, Comment
 
-class ProductImagesInline(admin.TabularInline):
-    model = ProductImages
-    raw_id_fields = ['product']
 
-@admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
         'pk',
         'name',
-        'group',
-        'count',
+        'product_group',
         'price',
         'description',
+        'count'
     )
     search_fields = ('name',)
-    # list_filter = ('author', )
     empty_value_display = '-пусто-'
-    list_per_page = 20
-    inlines = [ProductImagesInline]
 
 
-admin.site.register(ProductGroup)
-admin.site.register(CommentProduct)
+class ProductGroupAdmin(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'title',
+        'slug'
+    )
+    empty_value_display = '-пусто-'
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = (
+        'pk',
+        'title',
+        'slug'
+    )
+    empty_value_display = '-пусто-'
+
+
+admin.site.register(Product, ProductAdmin)
+admin.site.register(ProductGroup, ProductGroupAdmin)
+admin.site.register(Comment)

@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block content %}
+{% for item in order_history %}
+<div>
+  <li>    
+    {{ item.order }}
+    {{ item.seller }}
+  </li>
+</div>
+{% endfor %}
+{% endblock %}

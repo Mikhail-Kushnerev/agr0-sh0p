@@ -68,17 +68,7 @@ class Cart(object):
 
     def save(self):
         # сохраняем товар
-        # self.session[settings.CART_SESSION_ID] = self.cart
         self.session.modified = True
-
-    def decrement(request, id):
-        if request.method == "GET":
-            item = Product.objects.get(id=id)
-            if 0 < (item.quantity - 1) <= item.prod_id.quantity:
-                item.quantity -= 1
-                item.save()
-        #         return redirect('cart')
-        # return redirect('cart')
 
     def remove(self, product):
         """

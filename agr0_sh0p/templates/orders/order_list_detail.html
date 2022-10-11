@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} Подробнее о заказе {% endblock %}
+{% block content %}
+<div class="card col-12">
+  <h1 class="card-header">Подробная информация о заказе</h1>
+    {% for i in order_details %}
+    <ul>
+      <li>
+        <h5>Наименование: <b>{{ i.product }}</b></h5>
+        <h5>Количество (шт.): <b>{{ i.quantity }}</b></h5>
+        <h5>Общая стоимость: <b>{{ i.price }}</b></h5>
+        <h5>Cтатус заказа: <b>Новый</b></h5>
+        <h5>Cтатус оплаты: <b>В обработке</b></h5>
+        <h5>Трек номер: <b>1213145464</b></h5>
+        <a class="btn btn-info" href="{% url 'orders:pdf_view' i.id%}" target="_blank">View Invoice</a>
+        <a class="btn btn-info"  href="{% url 'orders:pdf_download' i.id%}">Download Invoice</a>
+      </li>
+    </ul>
+  {% if not forloop.last %}
+    <hr>
+  {% endif %}
+{% endfor %}
+{% endblock %}

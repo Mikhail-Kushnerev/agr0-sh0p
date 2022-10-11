@@ -1,12 +1,25 @@
 {% extends 'base.html' %}
+
+{% block title %}
+Все товары категории: {{ product_group.title }}
+{% endblock title %}
+
 {% block content %}
-{% for product in products %}
-<table>
-  <tr>
-    <a href="{% url 'sales_backend:product_detail' product.id %}">
-      {{ product.name }}
-    </a>
-  </tr>
-</table>
-{% endfor %}
+<div class="card col-12">
+  <h1 class="card-header">Все товары категории: {{ product_group.title }}</h1>
+    {% for product in page_obj %}
+      <ul>
+        <li>
+        <h5><b>{{ product.name }}</b></h5>
+        <a href="{% url 'sales_backend:product_detail' product.id %}" class="btn btn-primary">
+        Подробнее
+        </a>
+        </li>
+      </ul>      
+      {% if not forloop.last %}
+      <hr>
+      {% endif %}
+    {% endfor %}
+</div>
+{% include 'sales_backend/includes/paginator.html' %}
 {% endblock %}

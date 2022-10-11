@@ -1,24 +1,37 @@
-{% extends "base.html" %}
-
-{% block title %}Checkout{% endblock %}
-
+{% extends 'base.html' %}
+{% block title %}Оформление заказа{% endblock title %}
 {% block content %}
-    <h1>Checkout</h1>
-    <div class="order-info">
-        <h3>Your order</h3>
-        <ul>
-            {% for item in cart %}
-                <li>
-                    {{ item.quantity }}x {{ item.product.name }}
-                    <span>${{ item.total_price }}</span>
-                </li>
-            {% endfor %}
-        </ul>
-        <p>Total: ${{ cart.get_total_price }}</p>
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+        <div class="card-header">
+            Укажите данные для доставки:
+    <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group row my-3 p-3">
+      <label for="{{ field.id_for_label }}">
+        {{ field.label }}
+          {% if field.field.required %}
+            <span class="required text-danger">*</span>
+          {% endif %}
+      </label>
+      {{ field }}
+      {% if field.help_text %}
+        <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
+          {{ field.help_text|safe }}
+        </small>
+      {% endif %}
+      </div>
+    {% endfor %}
+    <div class="col-md-6 offset-md-4">
+      <button type="submit" class="btn btn-primary">
+      Добавить
+      </button> 
     </div>
-    <form action="." method="post" class="order-form">
-        {{ form.as_p }}
-        <p><input type="submit" value="Place order"></p>
-        {% csrf_token %}
-    </form>
+  </form>
+</div> <!-- card body -->
+</div> <!-- card -->
+</div> <!-- col -->
+</div>
 {% endblock %}

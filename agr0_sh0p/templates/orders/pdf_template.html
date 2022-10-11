@@ -1,0 +1,36 @@
+<html lang="ru"> 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Universal - All In 1 Template</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="all,follow">
+    <!-- Google fonts-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
+</head>
+    
+    <body>
+        <!-- Content for Static Frame 'header_frame' -->
+        <div id="header_content">
+            <h3>Dennnis Ivanov Company</h3>
+        </div>
+        <div class="col-md-6 d-md-block d-none">
+            <p class="mb-0 text-xs">Прив on +420 777 555 333 or hello@universal.com.</p>
+          </div>
+    
+        <!-- Content for Static Frame 'footer_frame' -->
+        <div id="footer_content">(c) - page <pdf:pagenumber>
+            of <pdf:pagecount>
+        </div>
+    
+        <!-- HTML Content -->
+        <table>
+            {% for i in order_details %}
+            <td>{{ i.order.address }}</td>
+        {% endfor %}
+        </table>
+    
+        <hr>
+    </body>
+    </html>

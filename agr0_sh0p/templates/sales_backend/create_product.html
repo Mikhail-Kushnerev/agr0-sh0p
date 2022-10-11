@@ -1,18 +1,37 @@
 {% extends 'base.html' %}
-{% block title %} Добавление товара {% endblock %}
+{% block title %}Создать товар{% endblock title %}
 {% block content %}
-  <div class="card">
-    <form
-      method="post"
-      enctype="multipart/form-data"
-    >
-      {% csrf_token %}
-      
-      {{ formset.as_p }}
-      {{ form.as_p }}
-      <button type="submit">
-        {{ button }}
-      </button>    
-    </form>
-  </div>
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+        <div class="card-header">
+            Добавить товар
+    <form method="post">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="form-group row my-3 p-3">
+      <label for="{{ field.id_for_label }}">
+        {{ field.label }}
+          {% if field.field.required %}
+            <span class="required text-danger">*</span>
+          {% endif %}
+      </label>
+      {{ field }}
+      {% if field.help_text %}
+        <small id="{{ field.id_for_label }}-help" class="form-text text-muted">
+          {{ field.help_text|safe }}
+        </small>
+      {% endif %}
+      </div>
+    {% endfor %}
+    <div class="col-md-6 offset-md-4">
+      <button type="submit" class="btn btn-primary">
+      Добавить
+      </button> 
+    </div>
+  </form>
+</div> <!-- card body -->
+</div> <!-- card -->
+</div> <!-- col -->
+</div>
 {% endblock %}

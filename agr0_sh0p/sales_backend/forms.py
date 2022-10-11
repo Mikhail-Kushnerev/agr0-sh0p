@@ -1,11 +1,6 @@
 from django import forms
 
-from .models import (
-    Product,
-    ProductImages,
-    CommentProduct
-)
-
+from .models import Product, Comment
 
 
 class ProductForm(forms.ModelForm):
@@ -13,28 +8,56 @@ class ProductForm(forms.ModelForm):
         model = Product
         fields = (
             'name',
-            'group',
+            'product_group',
             'price',
             'description',
-            'count'
+            'count',
+            'discount',
+            'on_sale'
         )
-
-        widgets = {
-            'name': forms.TextInput(attrs={'size': '40'}),
+        labels = {
+            'name': 'Наименование товара',
+            'product_group': 'Категория товара',
+            'price': 'Цена',
+            'description': 'Описание',
+            'count': 'Наличие',
+            'discount': 'Скидка',
+        }
+        help_texts = {
+            'discount': 'Введите условие выполнение Вашей скидки'
         }
 
 
-class ProductImagesForm(forms.ModelForm):
-    # image = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
-    class Meta:
-        model = ProductImages
-        fields = ['image']
-
-        widgets = {
-            'image': forms.ClearableFileInput(attrs={'multiple': True}),
-        }
+class SellerForm(forms.Form):
+    from_email = forms.EmailField(
+        label='Email',
+        required=True,
+        help_text='Ваша электронная почта')
+    subject = forms.CharField(
+        label='Тема',
+        required=True,
+        help_text='''
+        В теме письма укажите название Вашей компании с
+        организационно-правовой-формой,
+        также укажите пометку "Хочу стать продавцом"
+        '''
+    )
+    message = forms.CharField(
+        label='Сообщение',
+        widget=forms.Textarea, 
+        required=True,
+        help_text='''
+        Укажите, пожалуйста, Имя, Фамилию,
+        Телефон, ИНН организации или ИП
+        ''')
 
 class CommentForm(forms.ModelForm):
     class Meta:
-        model = CommentProduct
-        fields = ('text', )
+        model = Comment
+        fields = ('text', 'rating',)
+        help_texts = {
+            'text': 'Запиши свои мысли',
+        }
+        labels = {
+            'text': 'Текст комментарии',
+        }

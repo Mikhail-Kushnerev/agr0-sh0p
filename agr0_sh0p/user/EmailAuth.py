@@ -1,7 +1,7 @@
 import email
 from .models import User
 from django.contrib.auth.backends import ModelBackend
-
+from django.db.models import Q
 
 class CustomBackend(ModelBackend):
     def authenticate(
@@ -12,7 +12,9 @@ class CustomBackend(ModelBackend):
         **kwargs
     ):
         try:
-            user = User.objects.get(email=username)
+            user = User.objects.get(
+                Q(email=username) | Q(phone_number=username)
+            )
         except User.DoesNotExist:
             return None
         else:

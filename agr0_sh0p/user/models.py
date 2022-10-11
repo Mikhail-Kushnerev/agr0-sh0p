@@ -1,5 +1,7 @@
+from enum import unique
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from phonenumber_field.modelfields import PhoneNumberField
 # Create your models here.
 from .manager import CustomAccountManager
 
@@ -18,7 +20,12 @@ class User(AbstractUser):
         null=True,
         blank=True
     )
-    phone_number = models.CharField(max_length=12, blank=True)
+    phone_number = PhoneNumberField(
+        max_length=12,
+        unique=True,
+        blank=True,
+        null=True
+    )
     # start_date = models.DecimalField(default=timezone.now)
     last_login = models.DateTimeField(auto_now=True)   
     is_admin = models.BooleanField(default=False)
